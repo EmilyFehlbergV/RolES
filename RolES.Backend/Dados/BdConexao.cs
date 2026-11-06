@@ -1,18 +1,18 @@
 using MySql.Data.MySqlClient;
 
 namespace RolES.Backend.Dados;
-
+//as classes são compostas por duas coisas: métodos e propiedades
 public class BdConexao
 {
-    private readonly string StringConexao =
+    private readonly string StringConexao = 
         Environment.GetEnvironmentVariable("MYSQL_URI") ?? 
         throw new ArgumentNullException("MYSQL_URI", "A variável de ambiente MYSQL_URI não foi informada.");
 
-    public async Task<MySqlConnection> CriaConexao()
+    public async Task<MySqlConnection> CriarConexaoAsync()
     {
         var mySqlConexao = new MySqlConnection(StringConexao);
         await mySqlConexao.OpenAsync();
         return mySqlConexao;
 
     }
-}
+} 
