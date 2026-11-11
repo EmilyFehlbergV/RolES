@@ -62,5 +62,30 @@ app.MapPost("/usuario", async (CadastroUsuarioDto requestBody, UsuarioServicos u
         return Results.InternalServerError();
     }
 });
+app.MapPost("/login", async (LoginUsuarioDto corpoRequisicao, UsuarioServicos uServicos) =>
+{
+    try
+    {
+        var usuarioEncontrado = await uServicos.BuscarPorEmailAsync(corpoRequisicao.Email);
+
+        if (usuarioEncontrado == null)
+            return Results.NotFound(new
+            {
+                Mensagem = "O usuário não foi encontrado."
+            });
+
+        if (corpoRequisicao.Senha != usuarioEncontrado.Senha)
+            return Results.BadRequest(new
+            {
+                Mensagem = "Email/senha estão incorretos."
+            });
+
+        return Results.Ok();
+    }
+    catch 
+    {
+        return Results.InternalServerError();
+    }
+});
 
 app.Run();
