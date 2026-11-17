@@ -1,0 +1,22 @@
+@page "/perfil"
+@using RolES.Frontend.Modelos
+@inject HttpClient http
+
+
+<h1>Perfil</h1>
+@if (UsuarioAtual != null)
+{
+    <p>Nome: @UsuarioAtual.Nome</p>
+    <p>Email: @UsuarioAtual.Email </p>
+}
+@code {
+    private UsuarioDTO? UsuarioAtual;
+    
+    protected override async Task OnInitializedAsync()
+    {
+     var resposta = await http.GetFromJsonAsync<UsuarioDTO>("http://10.112.4.157/eu");
+
+     UsuarioAtual = resposta;
+    }
+
+}
